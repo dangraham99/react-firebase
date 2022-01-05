@@ -5,7 +5,9 @@ module.exports = {
 
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: ["Times New Roman", 'sans-serif']
+    }
   },
   plugins: [],
 }
