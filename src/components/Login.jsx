@@ -1,25 +1,42 @@
 import React from 'react'
+import Form from './Form'
+import FormSubmitBtn from './FormSubmitBtn'
+import FormTextInput from './FormTextInput'
+import FormInlineLink from './FormInlineLink'
 
 const Login = () => {
     return (
         <div>
 
-            <h1 className="font-bold text-2xl py-8 max-w-sm mx-auto text-center">Welcome back</h1>
 
-            <form action="" className="mx-auto bg-white text-gray-700 font-semibold shadow-md rounded rounded-md px-8 pt-6 pb-8 mb-4 max-w-sm ">
+
+            <Form formTitle="Welcome back" formAction="">
                 <div className="form-body mb-4">
-                    <div className="mb-4">
-                        <label htmlFor="" className="text-xs uppercase">Email</label>
-                        <input type="text" className="appearance-none border focus:outline-blue-200 focus:shadow-outline border-gray-200 rounded w-full py-2 px-3" />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="" className="text-xs uppercase">Password</label>
-                        <input type="password" className="appearance-none border focus:outline-blue-200 focus:shadow-outline border-gray-200 rounded w-full py-2 px-3" />
-                    </div>
-                    <p className="text-sm mt-3 text-gray-500">Forgotten your password? <a href='#' className="underline text-blue-500">Click here.</a></p>
-                    <div className="flex justify-center mt-8">
-                        <input type="submit" value="Sign in" href="#" className='w-full cursor-pointer px-4 py-2 font-bold text-white bg-blue-500 shadow-md border-neutral-600 border-1 rounded hover:bg-blue-600' />
-                    </div>
+                    <FormTextInput
+                        inputName="email"
+                        inputType="email"
+                        labelText="Email"
+
+                    />
+                    <FormTextInput
+                        inputName="password"
+                        inputType="password"
+                        labelText="Password"
+                    />
+
+                    <FormInlineLink
+                        inlineText="Forgotten your password? "
+                        linkText="Click here."
+                        hrefLocation='#'
+
+                    />
+
+                    <FormSubmitBtn
+                        buttonText="Sign in"
+                        hrefLocation="#"
+
+                    />
+
 
 
                     <div className="flex justify-center my-3 mx-5 space-x-6">
@@ -48,15 +65,16 @@ const Login = () => {
 
                 </div>
 
-                <p className="text-gray-500 text-sm text-center">Don't have an account? <a href='#' className="underline text-blue-500">Sign up.</a></p>
+                <div className="text-center">
+                    <FormInlineLink
+                        inlineText="Don't have an account? "
+                        linkText="Sign up."
+                        hrefLocation="/register" s
 
+                    />
+                </div>
 
-
-
-
-
-
-            </form>
+            </Form>
         </div>
     )
 }
