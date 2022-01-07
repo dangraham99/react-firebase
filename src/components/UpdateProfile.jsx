@@ -12,10 +12,11 @@ const UpdateProfile = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { register } = useAuth()
+    const { currentUser } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const [showConfirmBox, setShowConfirmBox] = useState(false)
 
 
     async function handleSubmit(e) {
@@ -29,7 +30,6 @@ const UpdateProfile = () => {
         setLoading(true)
 
         try {
-            await register(emailRef.current.value, passwordRef.current.value)
             navigate('/')
         } catch {
             return setFormError('Account registration failed!')
@@ -39,19 +39,28 @@ const UpdateProfile = () => {
         setLoading(false)
     }
 
+    function handleChange(e) {
+        if (passwordRef.current.value.length > 0) {
+            setShowConfirmBox(true)
+        } else {
+            setShowConfirmBox(false)
+        }
+    }
+
     return (
         <div>
             <Form onSubmit={handleSubmit} formTitle="Edit Profile" formError={formError} method="">
 
-                <FormTextInput inputName="name" inputType="text" labelText="name" inputRef={nameRef} />
-                <FormTextInput inputName="email" inputType="email" labelText="email" inputRef={emailRef} />
-                <FormTextInput inputName="password" inputType="password" labelText="Password" inputRef={passwordRef} />
-                <FormTextInput inputName="password_confirm" inputType="password" labelText="Confirm Password" inputRef={passwordConfirmRef} />
+                <FormTextInput inputName="name" inputType="text" labelText="name" inputRef={nameRef} defaultValue={currentUser.displayName} />
+                <FormTextInput inputName="email" inputType="email" labelText="email" inputRef={emailRef} defaultValue={currentUser.email} />
+                <FormTextInput inputName="password" inputType="password" labelText="New Password" inputRef={passwordRef} onChange={handleChange} placeholder="Optional" />
+                {showConfirmBox && <FormTextInput inputName="password_confirm" inputType="password" labelText="Confirm New Password" inputRef={passwordConfirmRef} placeholder="" />}
 
 
 
                 <div className="pt-1 text-center">
                     <FormSubmitBtn disabled={loading} buttonText="Confirm changes" hrefLocation="#" />
+                    <FormInlineLink hrefLocation='/dashboard' linkText='Go back' />
                 </div>
 
             </Form>

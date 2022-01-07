@@ -40,6 +40,7 @@ function ForgotPassword() {
                 inputType="email"
                 labelText="Email"
                 inputRef={emailRef}
+
             />
 
             <FormSubmitBtn buttonText="Send reset link" disabled={loading} />
