@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState } from 'react'
 import Form from './Form'
 import FormTextInput from './FormTextInput'
 import FormSubmitBtn from './FormSubmitBtn'
 import FormInlineLink from './FormInlineLink'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -14,6 +15,7 @@ const Register = () => {
     const { register } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
 
     async function handleSubmit(e) {
@@ -28,11 +30,12 @@ const Register = () => {
 
         try {
             await register(emailRef.current.value, passwordRef.current.value)
+            navigate('/')
         } catch {
             return setFormError('Account registration failed!')
-            
+
         }
-        
+
         setLoading(false)
     }
 
@@ -45,7 +48,7 @@ const Register = () => {
                 <FormTextInput inputName="password" inputType="password" labelText="Password" inputRef={passwordRef} />
                 <FormTextInput inputName="password_confirm" inputType="password" labelText="Confirm Password" inputRef={passwordConfirmRef} />
 
-                
+
 
                 <div className="pt-1 text-center">
                     <FormSubmitBtn disabled={loading} buttonText="Create account" hrefLocation="#" />
