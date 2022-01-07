@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase'
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -43,6 +43,11 @@ export function AuthProvider({ children }) {
             })
     }
 
+    function resetPassword(email) {
+        const auth = getAuth()
+        return sendPasswordResetEmail(auth, email)
+    }
+
     //register user with firebase  basic auth
     function register(email, password) {
         const auth = getAuth()
@@ -74,12 +79,13 @@ export function AuthProvider({ children }) {
 
     }, [])
 
-    //render out vars/funcs into value variable to be passed into the context
+    //expose out vars/funcs into value variable to be passed into the context
     const value = {
         currentUser,
         register,
         login,
         loginWithGoogle,
+        resetPassword,
         logout,
         loading
     }
