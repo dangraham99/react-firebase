@@ -1,39 +1,68 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Form from './Form'
 import FormSubmitBtn from './FormSubmitBtn'
 import FormTextInput from './FormTextInput'
 import FormInlineLink from './FormInlineLink'
+import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+    const navigate = useNavigate()
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const { login } = useAuth()
+    const [formError, setFormError] = useState('')
+    const [loading, setLoading] = useState(false)
+
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        setLoading(true)
+
+        try {
+            await login(emailRef.current.value, passwordRef.current.value)
+            navigate('/')
+        } catch {
+            return setFormError('Account login failed!')
+
+        }
+
+        setLoading(false)
+    }
+
+
     return (
         <div>
 
 
 
-            <Form formTitle="Welcome back" formAction="">
+            <Form formTitle="Welcome back" onSubmit={handleSubmit}>
                 <div className="form-body mb-4">
                     <FormTextInput
                         inputName="email"
                         inputType="email"
                         labelText="Email"
+                        inputRef={emailRef}
 
                     />
                     <FormTextInput
                         inputName="password"
                         inputType="password"
                         labelText="Password"
+                        inputRef={passwordRef}
                     />
 
                     <FormInlineLink
                         inlineText="Forgotten your password? "
                         linkText="Click here."
-                        hrefLocation='#'
+                        hrefLocation='/forgot-password'
 
                     />
 
                     <FormSubmitBtn
                         buttonText="Sign in"
-                        hrefLocation="#"
+                        disabled={loading}
 
                     />
 
@@ -69,7 +98,7 @@ const Login = () => {
                     <FormInlineLink
                         inlineText="Don't have an account? "
                         linkText="Sign up."
-                        hrefLocation="/register" s
+                        hrefLocation="/register"
 
                     />
                 </div>
