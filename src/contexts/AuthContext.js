@@ -1,13 +1,13 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase'
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 
 
 const AuthContext = React.createContext()
 
 //Wrapper + helper func
-export function useAuth(){
+export function useAuth() {
     return useContext(AuthContext)
 }
 
@@ -15,32 +15,55 @@ export function useAuth(){
 
 
 
-export function AuthProvider({children}) {
+export function AuthProvider({ children }) {
     //set up state for current user value to pass as prop
     const [currentUser, setCurrentUser] = useState()
-    
-    
+    const [loading, setLoading] = useState(true)
 
+    //login with firebase basic auth
+    function login(email, password) {
+        const auth = getAuth()
+        return signInWithEmailAndPassword(auth, email, password)
+    }
 
-    //register user w/firebase using basic auth
+    //register user with firebase  basic auth
     function register(email, password) {
         const auth = getAuth()
         return createUserWithEmailAndPassword(auth, email, password)
+    }
+
+    //logout the current firebase user
+    function logout() {
+        const auth = getAuth()
+        return auth.signOut()
     }
 
     useEffect(() => {
         //watch for changes to auth and update state 
         const auth = getAuth()
         onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user)
+            if (user) {
+                console.log('user')
+                console.log(user)
+                setCurrentUser(user)
+            } else {
+                setCurrentUser(null)
+                console.log('no user')
+            }
+            setLoading(false)
         })
+
+
 
     }, [])
 
-
+    //render out vars/funcs into value variable to be passed into the context
     const value = {
         currentUser,
-        register
+        register,
+        login,
+        logout,
+        loading
     }
 
     return (
