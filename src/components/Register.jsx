@@ -51,8 +51,8 @@ const Register = () => {
 
 
                 <div className="pt-1 text-center">
-                    <FormSubmitBtn disabled={loading} buttonText="Create account" hrefLocation="#" />
-                    <FormInlineLink inlineText="Already have an account? " linkText="Sign in." hrefLocation='/login' />
+                    <FormSubmitBtn disabled={loading} buttonText="Create account" to="#" />
+                    <FormInlineLink inlineText="Already have an account? " linkText="Sign in." to='/login' />
                 </div>
 
             </Form>

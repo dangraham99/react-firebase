@@ -51,16 +51,16 @@ const UpdateProfile = () => {
         <div>
             <Form onSubmit={handleSubmit} formTitle="Edit Profile" formError={formError} method="">
 
-                <FormTextInput inputName="name" inputType="text" labelText="name" inputRef={nameRef} defaultValue={currentUser.displayName} />
-                <FormTextInput inputName="email" inputType="email" labelText="email" inputRef={emailRef} defaultValue={currentUser.email} />
-                <FormTextInput inputName="password" inputType="password" labelText="New Password" inputRef={passwordRef} onChange={handleChange} placeholder="Optional" />
-                {showConfirmBox && <FormTextInput inputName="password_confirm" inputType="password" labelText="Confirm New Password" inputRef={passwordConfirmRef} placeholder="" />}
+                <FormTextInput name="name" type="text" labelText="name" ref={nameRef} defaultValue={currentUser.displayName} />
+                <FormTextInput name="email" type="email" labelText="email" ref={emailRef} defaultValue={currentUser.email} />
+                <FormTextInput name="password" type="password" labelText="New Password" ref={passwordRef} onChange={handleChange} placeholder="Optional" />
+                {showConfirmBox && <FormTextInput name="password_confirm" type="password" labelText="Confirm New Password" ref={passwordConfirmRef} placeholder="" />}
 
 
 
                 <div className="pt-1 text-center">
-                    <FormSubmitBtn disabled={loading} buttonText="Confirm changes" hrefLocation="#" />
-                    <FormInlineLink hrefLocation='/dashboard' linkText='Go back' />
+                    <FormSubmitBtn disabled={loading} buttonText="Confirm changes" to="#" />
+                    <FormInlineLink to='/dashboard' linkText='Go back' />
                 </div>
 
             </Form>

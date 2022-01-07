@@ -75,7 +75,7 @@ const Login = () => {
                     <FormInlineLink
                         inlineText="Forgotten your password? "
                         linkText="Click here."
-                        hrefLocation='/forgot-password'
+                        to='/forgot-password'
 
                     />
 
@@ -117,7 +117,7 @@ const Login = () => {
                     <FormInlineLink
                         inlineText="Don't have an account? "
                         linkText="Sign up."
-                        hrefLocation="/register"
+                        to="/register"
 
                     />
                 </div>
