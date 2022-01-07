@@ -10,7 +10,7 @@ const Login = () => {
     const navigate = useNavigate()
     const emailRef = useRef()
     const passwordRef = useRef()
-    const { login } = useAuth()
+    const { login, loginWithGoogle } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -26,6 +26,24 @@ const Login = () => {
         } catch {
 
             setFormError('Account login failed!')
+
+        }
+
+        setLoading(false)
+    }
+
+
+    async function handleGoogleSignIn() {
+
+
+        setLoading(true)
+
+        try {
+            await loginWithGoogle()
+            navigate('/')
+        } catch {
+
+            setFormError('Account login with Google failed!')
 
         }
 
@@ -76,7 +94,7 @@ const Login = () => {
                                 <path fill="#fff" d="M7.6445 5.31c-.73 0-1.86-.83-3.05-.8-1.57.02-3.01.91-3.82 2.32-1.63 2.83-.42 7.01 1.17 9.31.78 1.12 1.7 2.38 2.92 2.34 1.17-.05 1.61-.76 3.03-.76 1.41 0 1.81.76 3.05.73 1.26-.02 2.06-1.14 2.83-2.27.89-1.3 1.26-2.56 1.28-2.63-.03-.01-2.45-.94-2.48-3.74-.02-2.34 1.91-3.46 2-3.51-1.1-1.61-2.79-1.79-3.38-1.83-1.54-.12-2.83.84-3.55.84zm2.6-2.36c.65-.78 1.08-1.87.96-2.95-.93.04-2.05.62-2.72 1.4-.6.69-1.12 1.8-.98 2.86 1.03.08 2.09-.53 2.74-1.31" />
                             </svg>
                         </a>
-                        <a className="border border-neutral-300 hover:bg-gray-300 p-2 flex items-center rounded-md border-neutral cursor-pointer">
+                        <a onClick={handleGoogleSignIn} className="border border-neutral-300 hover:bg-gray-300 p-2 flex items-center rounded-md border-neutral cursor-pointer">
                             <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                                 <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
                                     <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z" />

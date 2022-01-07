@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase'
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 
 
@@ -24,6 +24,23 @@ export function AuthProvider({ children }) {
     function login(email, password) {
         const auth = getAuth()
         return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    function loginWithGoogle() {
+        const provider = new GoogleAuthProvider()
+        const auth = getAuth()
+        return signInWithPopup(auth, provider)
+            .then((result) => {
+                //get access token from result
+                const credential = GoogleAuthProvider.credentialFromResult(result)
+                const token = credential.accessToken
+                const user = result.user
+            }).catch((error) => {
+                //error data TODO: add error logic
+                const errorCode = error.code
+                const email = error.email
+                const credential = GoogleAuthProvider.credentialFromError(error)
+            })
     }
 
     //register user with firebase  basic auth
@@ -62,6 +79,7 @@ export function AuthProvider({ children }) {
         currentUser,
         register,
         login,
+        loginWithGoogle,
         logout,
         loading
     }
