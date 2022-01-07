@@ -24,7 +24,8 @@ const Login = () => {
             await login(emailRef.current.value, passwordRef.current.value)
             navigate('/')
         } catch {
-            return setFormError('Account login failed!')
+
+            setFormError('Account login failed!')
 
         }
 
