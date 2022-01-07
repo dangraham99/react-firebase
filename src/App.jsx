@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext"
 import Dashboard from "./components/Dashboard";
 import Private from "./components/Private"
 import ForgotPassword from "./components/ForgotPassword";
+import UpdateProfile from "./components/UpdateProfile"
 
 function App() {
   return (
@@ -25,6 +26,16 @@ function App() {
                   </Private>
                 </>}
               />
+
+              <Route
+                path='/update-profile'
+                element={<>
+                  <Private>
+                    <UpdateProfile />
+                  </Private>
+                </>}
+              />
+
               <Route
                 path='/login'
                 element={<Login />}
