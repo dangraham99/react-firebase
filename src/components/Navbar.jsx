@@ -1,7 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 const Navbar = () => {
+
+    const { currentUser, logout, loading } = useAuth()
+    const navigate = useNavigate
+
+    async function handleLogout() {
+
+        try {
+            await logout()
+            navigate('/login')
+        } catch {
+            console.log('User requested logout failed')
+        }
+
+    }
+
     return (
         <div>
             <nav className="py-4 font-semibold backdrop-blur-lg border-b-1 shadow-md bg-white border-neutral-300">
@@ -18,13 +34,21 @@ const Navbar = () => {
                             <a href="#">Tasks</a>
                         </div>
                         <div className="flex items-center justify-between space-x-6">
-                            <Link to="/login">Sign in</Link>
-                            <Link to="/register" className='flex px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600'>
-                                <span className="mr-1">Sign up</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </Link>
+                            {(currentUser && !loading) && <>
+
+                                <p className="font-semibold text-sm">{currentUser.email}</p>
+                                <button className='text-sm text-blue-500 underline' onClick={handleLogout}>Sign out</button>
+
+                            </>}
+
+                            {(!currentUser && !loading) && <> <Link to="/login">Sign in</Link>
+                                <Link to="/register" className='flex px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600'>
+                                    <span className="mr-1">Sign up</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </Link>
+                            </>}
                         </div>
                     </div>
                 </div>
