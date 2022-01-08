@@ -48,10 +48,9 @@ const UpdateProfile = () => {
             setFormError('Failed to update profile')
         })
         .finally(() => {
-            setLoading(false)
         })
 
-    
+        setLoading(false)
 
       
     }
