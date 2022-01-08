@@ -30,8 +30,6 @@ const Navbar = () => {
                                 </svg>
                                 <span>React-Firebase</span>
                             </Link>
-                            <a href="#" className="border-b-2 border-neutral-500">Dashboard</a>
-                            <a href="#">Tasks</a>
                         </div>
                         <div className="flex items-center justify-between space-x-6">
                             {(currentUser && !loading) && <>
