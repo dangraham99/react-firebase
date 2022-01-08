@@ -36,10 +36,10 @@ function ForgotPassword() {
     return (
         <Form formError={error} formMessage={message} formTitle="Reset password" onSubmit={handleSubmit}>
             <FormTextInput
-                inputName="email"
-                inputType="email"
+                name="email"
+                type="email"
                 labelText="Email"
-                inputRef={emailRef}
+                ref={emailRef}
 
             />
 
