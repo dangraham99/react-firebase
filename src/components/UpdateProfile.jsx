@@ -12,38 +12,56 @@ const UpdateProfile = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { currentUser } = useAuth()
+    const { currentUser, updateUserEmail, updateUserPassword } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const [showConfirmBox, setShowConfirmBox] = useState(false)
 
 
-    async function handleSubmit(e) {
+
+
+    function handleSubmit(e) {
         e.preventDefault()
-
-        //check confirm password
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setFormError('Passwords do not match.')
-        }
-
+        setFormError()
         setLoading(true)
 
-        try {
-            navigate('/')
-        } catch {
-            return setFormError('Account registration failed!')
-
+        //What promises are to be executed when the submit button is pushed
+        const promises = []
+        if (emailRef.current.value !== currentUser.email) {
+            promises.push(updateUserEmail(emailRef.current.value))
         }
 
-        setLoading(false)
+        if (passwordRef.current.value) {
+            //check confirm password
+            if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+                setLoading(false)
+                return setFormError('Passwords do not match.')
+            }
+
+            promises.push(updateUserPassword(passwordRef.current.value))
+        }
+
+        Promise.all(promises)
+        .then(() => {navigate('/')})
+        .catch(() => {
+            setFormError('Failed to update profile')
+        })
+        .finally(() => {
+            setLoading(false)
+        })
+
+    
+
+      
     }
 
-    function handleChange(e) {
+    function handleChange() {
         if (passwordRef.current.value.length > 0) {
             setShowConfirmBox(true)
         } else {
             setShowConfirmBox(false)
+            
         }
     }
 
@@ -59,8 +77,8 @@ const UpdateProfile = () => {
 
 
                 <div className="pt-1 text-center">
-                    <FormSubmitBtn disabled={loading} buttonText="Confirm changes" to="#" />
-                    <FormInlineLink to='/dashboard' linkText='Go back' />
+                    <FormSubmitBtn disabled={loading} buttonText="Confirm changes" onClick={handleSubmit} />
+                    <FormInlineLink to='/' linkText='Go back' />
                 </div>
 
             </Form>
