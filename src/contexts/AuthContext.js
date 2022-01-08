@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase'
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updatePassword, updateEmail } from "firebase/auth";
 
 
 
@@ -48,6 +48,16 @@ export function AuthProvider({ children }) {
         return sendPasswordResetEmail(auth, email)
     }
 
+    function updateUserEmail(newEmail){
+        const auth = getAuth()
+        return updateEmail(currentUser, newEmail)
+    }
+
+    function updateUserPassword(newPassword){
+        const auth = getAuth()
+        return updatePassword(currentUser, newPassword)
+    }
+
     //register user with firebase  basic auth
     function register(email, password) {
         const auth = getAuth()
@@ -63,7 +73,7 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         //watch for changes to auth and update state 
         const auth = getAuth()
-        onAuthStateChanged(auth, (user) => {
+        let unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log('user')
                 console.log(user)
@@ -75,7 +85,7 @@ export function AuthProvider({ children }) {
             setLoading(false)
         })
 
-
+        
 
     }, [])
 
@@ -86,6 +96,8 @@ export function AuthProvider({ children }) {
         login,
         loginWithGoogle,
         resetPassword,
+        updateUserEmail,
+        updateUserPassword,
         logout,
         loading
     }
