@@ -43,10 +43,10 @@ const Register = () => {
         <div>
             <Form onSubmit={handleSubmit} formTitle="Let's get started" formError={formError} method="">
 
-                <FormTextInput name="name" type="text" labelText="name" ref={nameRef} />
-                <FormTextInput name="email" type="email" labelText="email" ref={emailRef} />
-                <FormTextInput name="password" type="password" labelText="Password" ref={passwordRef} />
-                <FormTextInput name="password_confirm" type="password" labelText="Confirm Password" ref={passwordConfirmRef} />
+                <FormTextInput name="name" type="text" labelText="name" ref={nameRef} required />
+                <FormTextInput name="email" type="email" labelText="email" ref={emailRef} required />
+                <FormTextInput name="password" type="password" labelText="Password" ref={passwordRef} required />
+                <FormTextInput name="password_confirm" type="password" labelText="Confirm Password" ref={passwordConfirmRef} required />
 
 
 

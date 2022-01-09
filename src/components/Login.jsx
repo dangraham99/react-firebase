@@ -56,13 +56,14 @@ const Login = () => {
 
 
 
-            <Form formTitle="Welcome back" onSubmit={handleSubmit}>
+            <Form formError={formError} formTitle="Welcome back" onSubmit={handleSubmit}>
                 <div className="mb-4 form-body">
                     <FormTextInput
                         name="email"
                         type="email"
                         labelText="Email"
                         ref={emailRef}
+                        required
 
                     />
                     <FormTextInput
@@ -70,6 +71,7 @@ const Login = () => {
                         type="password"
                         labelText="Password"
                         ref={passwordRef}
+                        required
                     />
 
                     <FormInlineLink
