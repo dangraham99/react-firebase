@@ -14,7 +14,7 @@ const UpdateProfile = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { currentUser, updateUserEmail, updateUserPassword } = useAuth()
+    const { currentUser, updateUserEmail, updateUserPassword, parseFirebaseError } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -63,8 +63,9 @@ const UpdateProfile = () => {
 
         Promise.all(promises)
             .then(() => { navigate('/') })
-            .catch(() => {
-                setFormError('Failed to update profile')
+            .catch((error) => {
+                const readableError = parseFirebaseError(error)
+                setFormError(readableError.message)
             })
             .finally(() => {
             })

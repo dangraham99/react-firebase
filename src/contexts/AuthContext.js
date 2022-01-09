@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWith
 
 
 const AuthContext = React.createContext()
+const auth = getAuth()
 
 //Wrapper + helper func
 export function useAuth() {
@@ -22,45 +23,33 @@ export function AuthProvider({ children }) {
 
     //login with firebase basic auth
     function login(email, password) {
-        const auth = getAuth()
+
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     function loginWithGoogle() {
         const provider = new GoogleAuthProvider()
-        const auth = getAuth()
         return signInWithPopup(auth, provider)
-            .then((result) => {
-                //get access token from result
-                const credential = GoogleAuthProvider.credentialFromResult(result)
-                const token = credential.accessToken
-                const user = result.user
-            }).catch((error) => {
-                //error data TODO: add error logic
-                const errorCode = error.code
-                const email = error.email
-                const credential = GoogleAuthProvider.credentialFromError(error)
-            })
+
     }
 
     function resetPassword(email) {
-        const auth = getAuth()
+
         return sendPasswordResetEmail(auth, email)
     }
 
-    function updateUserEmail(newEmail){
-        const auth = getAuth()
+    function updateUserEmail(newEmail) {
+
         return updateEmail(currentUser, newEmail)
     }
 
-    function updateUserPassword(newPassword){
-        const auth = getAuth()
+    function updateUserPassword(newPassword) {
+
         return updatePassword(currentUser, newPassword)
     }
 
     //register user with firebase  basic auth
     function register(email, password) {
-        const auth = getAuth()
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
@@ -70,22 +59,60 @@ export function AuthProvider({ children }) {
         return auth.signOut()
     }
 
+    function parseFirebaseError(apiError) {
+        let readableError = apiError
+        readableError.message = "An unknown error occured, please try again."
+
+        if (apiError.code === "auth/user-not-found") {
+            readableError.message = "An account associated with these credentials could not be found."
+        }
+
+        if (apiError.code === "auth/wrong-password") {
+            readableError.message = "This password is incorrect."
+        }
+
+        if (apiError.code === "auth/email-already-exists") {
+            readableError.message = "There is already an account associated with these credentials."
+        }
+
+        if (apiError.code === "auth/id-token-expired" || apiError.code === "auth/id-token-revoked" || apiError.code === "auth/session-cookie-expired" || apiError.code === "auth/session-cookie-revoked") {
+            readableError.message = "Your login session has expired, please reauthenticate."
+        }
+
+        if (apiError.code === "auth/invalid-display-name") {
+            readableError.message = "This display name is not valid, please enter a different one."
+        }
+
+        if (apiError.code === "auth/invalid-email") {
+            readableError.message = "This email address is not valid, please enter a valid email address."
+        }
+
+        if (apiError.code === "auth/weak-password") {
+            readableError.message = "Your chosen password is too weak, please use a password that is at least six characters long."
+        }
+
+        if (apiError.code === "auth/too-many-requests") {
+            readableError.message = "Access to this account has been temporarily suspended due to too many failed login attempts. You can restore immediate access by resetting your password."
+        }
+
+        return readableError
+
+    }
+
     useEffect(() => {
         //watch for changes to auth and update state 
         const auth = getAuth()
         let unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log('user')
-                console.log(user)
+
                 setCurrentUser(user)
             } else {
                 setCurrentUser(null)
-                console.log('no user')
             }
             setLoading(false)
         })
 
-        
+
 
     }, [])
 
@@ -98,6 +125,7 @@ export function AuthProvider({ children }) {
         resetPassword,
         updateUserEmail,
         updateUserPassword,
+        parseFirebaseError,
         logout,
         loading
     }

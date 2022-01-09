@@ -12,7 +12,7 @@ const Register = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { register } = useAuth()
+    const { register, parseFirebaseError } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -29,10 +29,14 @@ const Register = () => {
         setLoading(true)
 
         try {
-            await register(emailRef.current.value, passwordRef.current.value)
-            navigate('/')
+            await register(emailRef.current.value, passwordRef.current.value).then((result) => {
+                navigate('/')
+            }).catch((error) => {
+
+                const readableError = parseFirebaseError(error)
+                setFormError(readableError.message)
+            })
         } catch {
-            return setFormError('Account registration failed!')
 
         }
 

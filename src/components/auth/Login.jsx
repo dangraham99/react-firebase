@@ -5,12 +5,13 @@ import FormTextInput from '../partials/FormTextInput'
 import FormInlineLink from '../partials/FormInlineLink'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { parse } from 'postcss'
 
 const Login = () => {
     const navigate = useNavigate()
     const emailRef = useRef()
     const passwordRef = useRef()
-    const { login, loginWithGoogle } = useAuth()
+    const { login, loginWithGoogle, parseFirebaseError } = useAuth()
     const [formError, setFormError] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -25,11 +26,17 @@ const Login = () => {
         setLoading(true)
 
         try {
-            await login(emailRef.current.value, passwordRef.current.value)
-            navigate('/')
+            await login(emailRef.current.value, passwordRef.current.value).then((result) => {
+                navigate('/')
+            }).catch((error) => {
+
+                const readableError = parseFirebaseError(error)
+                setFormError(readableError.message)
+            })
+
         } catch {
 
-            setFormError('Account login failed!')
+
 
         }
 
