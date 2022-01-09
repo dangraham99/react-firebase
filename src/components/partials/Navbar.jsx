@@ -13,7 +13,7 @@ const Navbar = () => {
             await logout()
             navigate('/login')
         } catch {
-            console.log('User requested logout failed')
+            return
         }
 
     }
