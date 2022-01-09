@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
-import Form from './Form'
-import FormTextInput from './FormTextInput'
-import FormSubmitBtn from './FormSubmitBtn'
-import FormInlineLink from './FormInlineLink'
-import { useAuth } from '../contexts/AuthContext'
+import Form from '../partials/Form'
+import FormTextInput from '../partials/FormTextInput'
+import FormSubmitBtn from '../partials/FormSubmitBtn'
+import FormInlineLink from '../partials/FormInlineLink'
+import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const Register = () => {

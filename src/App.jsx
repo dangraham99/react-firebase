@@ -1,12 +1,16 @@
-import Login from "./components/Login";
-import Navbar from "./components/Navbar";
-import Register from "./components/Register";
-import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom'
-import { AuthProvider } from "./contexts/AuthContext"
+import Navbar from "./components/partials/Navbar";
+import Private from "./components/partials/Private"
 import Dashboard from "./components/Dashboard";
-import Private from "./components/Private"
-import ForgotPassword from "./components/ForgotPassword";
-import UpdateProfile from "./components/UpdateProfile"
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import UpdateProfile from "./components/auth/UpdateProfile"
+import { AuthProvider } from "./contexts/AuthContext"
+import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom'
+
+
+
+
 
 function App() {
   return (

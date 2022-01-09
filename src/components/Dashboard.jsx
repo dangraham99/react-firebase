@@ -2,7 +2,7 @@ import { updateCurrentUser } from 'firebase/auth'
 import React, { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
-import Content from './Content'
+import Content from './partials/Content'
 
 function Dashboard() {
 

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
-import FormTextInput from './FormTextInput'
-import Form from './Form'
-import FormSubmitBtn from './FormSubmitBtn'
+import FormTextInput from '../partials/FormTextInput'
+import Form from '../partials/Form'
+import FormSubmitBtn from '../partials/FormSubmitBtn'
 import { navigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext'
 
 function ForgotPassword() {
 
